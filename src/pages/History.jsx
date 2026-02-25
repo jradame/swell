@@ -10,7 +10,9 @@ function History() {
     <div className={styles.container}>
       <div className={styles.header}>
         <h2 className={styles.heading}>Session History</h2>
-        <Link to="/log" className={styles.logBtn}>+ Log Session</Link>
+        <Link to="/log" className={styles.logBtn}>
+          + Log Session
+        </Link>
       </div>
 
       {sessions.length === 0 ? (

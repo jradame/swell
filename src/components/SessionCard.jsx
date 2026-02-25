@@ -25,7 +25,12 @@ function SessionCard({ session }) {
         </div>
       </div>
       {session.notes && <p className={styles.notes}>{session.notes}</p>}
-      <button className={styles.delete} onClick={() => deleteSession(session.id)}>Delete</button>
+      <button
+        className={styles.delete}
+        onClick={() => deleteSession(session.id)}
+      >
+        Delete
+      </button>
     </div>
   )
 }

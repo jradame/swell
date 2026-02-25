@@ -6,5 +6,5 @@
   --color-text: #f1f5f9;
   --color-muted: #64748b;
   --radius: 12px;
-  --font-main: 'Inter', sans-serif;
+  --font-main: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
 }

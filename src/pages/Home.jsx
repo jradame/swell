@@ -6,12 +6,24 @@ function Home() {
   const { sessions } = useSessions()
   const latest = sessions[0]
 
+  const avgWave =
+    sessions.length > 0
+      ? (
+          sessions.reduce((sum, s) => sum + Number(s.waveHeight || 0), 0) /
+          sessions.length
+        ).toFixed(1)
+      : '—'
+
   return (
     <div className={styles.container}>
       <div className={styles.hero}>
         <h1 className={styles.title}>🌊 SWELL</h1>
-        <p className={styles.subtitle}>Track every session. Own your progress.</p>
-        <Link to="/log" className={styles.cta}>Log a Session</Link>
+        <p className={styles.subtitle}>
+          Log every surf session, track conditions, and watch your surfing progress over time.
+        </p>
+        <Link to="/log" className={styles.cta}>
+          Log a Session
+        </Link>
       </div>
 
       <div className={styles.stats}>
@@ -20,11 +32,7 @@ function Home() {
           <span className={styles.statLabel}>Total Sessions</span>
         </div>
         <div className={styles.statCard}>
-          <span className={styles.statNumber}>
-            {sessions.length > 0
-              ? (sessions.reduce((sum, s) => sum + Number(s.waveHeight), 0) / sessions.length).toFixed(1)
-              : '—'}
-          </span>
+          <span className={styles.statNumber}>{avgWave}</span>
           <span className={styles.statLabel}>Avg Wave Height (ft)</span>
         </div>
         <div className={styles.statCard}>
