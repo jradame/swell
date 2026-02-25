@@ -1,0 +1,79 @@
+.card {
+  background: var(--color-surface);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  border: 1px solid transparent;
+  transition: border-color 0.2s;
+}
+
+.card:hover {
+  border-color: var(--color-primary);
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.spot {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--color-text);
+  margin: 0;
+}
+
+.date {
+  font-size: 0.85rem;
+  color: var(--color-muted);
+}
+
+.stats {
+  display: flex;
+  gap: 2rem;
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.value {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--color-primary);
+}
+
+.label {
+  font-size: 0.75rem;
+  color: var(--color-muted);
+  text-transform: uppercase;
+}
+
+.notes {
+  font-size: 0.9rem;
+  color: var(--color-muted);
+  margin: 0;
+  font-style: italic;
+}
+
+.delete {
+  align-self: flex-end;
+  background: transparent;
+  border: 1px solid var(--color-muted);
+  color: var(--color-muted);
+  border-radius: var(--radius);
+  padding: 0.4rem 1rem;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.delete:hover {
+  border-color: #ef4444;
+  color: #ef4444;
+}
