@@ -1,5 +1,6 @@
 import { useSessions } from '../context/SessionContext'
 import { Link } from 'react-router-dom'
+import SpotConditionsPanel from '../components/SpotConditionsPanel'
 import styles from './Home.module.css'
 
 function Home() {
@@ -19,7 +20,8 @@ function Home() {
       <div className={styles.hero}>
         <h1 className={styles.title}>🌊 SWELL</h1>
         <p className={styles.subtitle}>
-          Log every surf session, track conditions, and watch your surfing progress over time.
+          Log every surf session, track conditions, and watch your surfing
+          progress over time.
         </p>
         <Link to="/log" className={styles.cta}>
           Log a Session
@@ -42,6 +44,8 @@ function Home() {
           <span className={styles.statLabel}>Last Spot</span>
         </div>
       </div>
+
+      <SpotConditionsPanel />
     </div>
   )
 }

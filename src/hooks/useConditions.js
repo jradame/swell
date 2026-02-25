@@ -9,23 +9,60 @@ export function useConditions(lat, lng) {
     if (!lat || !lng) return
 
     setLoading(true)
+    setError(null)
 
-    const url = `https://marine-api.open-meteo.com/v1/marine?latitude=${lat}&longitude=${lng}&hourly=wave_height,wave_period,wind_speed,water_temperature&length=1`
+    // Marine API: waves + water temp
+    const marineUrl =
+      `https://marine-api.open-meteo.com/v1/marine` +
+      `?latitude=${lat}` +
+      `&longitude=${lng}` +
+      `&hourly=wave_height,wave_period,sea_surface_temperature` +
+      `&forecast_days=1` +
+      `&timezone=auto`
 
-    fetch(url)
-      .then(res => res.json())
-      .then(data => {
-        const hour0 = {
-          waveHeight: data.hourly?.wave_height?.[0],
-          wavePeriod: data.hourly?.wave_period?.[0],
-          windSpeed: data.hourly?.wind_speed?.[0],
-          waterTemperature: data.hourly?.water_temperature?.[0]
+    // Weather API: wind at 10m
+    const windUrl =
+      `https://api.open-meteo.com/v1/forecast` +
+      `?latitude=${lat}` +
+      `&longitude=${lng}` +
+      `&hourly=wind_speed_10m` +
+      `&forecast_days=1` +
+      `&timezone=auto`
+
+    Promise.all([
+      fetch(marineUrl).then(r => r.json()),
+      fetch(windUrl).then(r => r.json())
+    ])
+      .then(([marine, wind]) => {
+        console.log('marine raw:', marine)
+        console.log('wind raw:', wind)
+
+        if (marine.error) {
+          throw new Error(marine.reason || 'Marine API error')
         }
-        setConditions(hour0)
+        if (wind.error) {
+          throw new Error(wind.reason || 'Wind API error')
+        }
+        if (!marine.hourly || !wind.hourly) {
+          throw new Error('Missing hourly data')
+        }
+
+        const waveHeight = marine.hourly.wave_height?.[0] ?? null
+        const wavePeriod = marine.hourly.wave_period?.[0] ?? null
+        const waterTemperature =
+          marine.hourly.sea_surface_temperature?.[0] ?? null
+        const windSpeed = wind.hourly.wind_speed_10m?.[0] ?? null
+
+        setConditions({
+          waveHeight,
+          wavePeriod,
+          windSpeed,
+          waterTemperature
+        })
         setLoading(false)
       })
       .catch(err => {
-        console.error('open-meteo error', err)
+        console.error('conditions error:', err)
         setError(err)
         setLoading(false)
       })
