@@ -1,3 +1,5 @@
+// src/pages/History.jsx
+
 import { useSessions } from '../context/SessionContext'
 import SessionCard from '../components/SessionCard'
 import { Link } from 'react-router-dom'
@@ -17,8 +19,10 @@ function History() {
 
       {sessions.length === 0 ? (
         <div className={styles.empty}>
-          <p>No sessions yet.</p>
-          <Link to="/log">Log your first session →</Link>
+          <p className={styles.emptyText}>No sessions yet.</p>
+          <Link to="/log" className={styles.emptyLink}>
+            Log your first session →
+          </Link>
         </div>
       ) : (
         <div className={styles.list}>

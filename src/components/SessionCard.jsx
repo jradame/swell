@@ -1,3 +1,5 @@
+// src/components/SessionCard.jsx
+
 import { useSessions } from '../context/SessionContext'
 import styles from './SessionCard.module.css'
 
@@ -10,6 +12,7 @@ function SessionCard({ session }) {
         <h3 className={styles.spot}>{session.spot}</h3>
         <span className={styles.date}>{session.date}</span>
       </div>
+
       <div className={styles.stats}>
         <div className={styles.stat}>
           <span className={styles.value}>{session.waveHeight}ft</span>
@@ -24,7 +27,9 @@ function SessionCard({ session }) {
           <span className={styles.label}>Board</span>
         </div>
       </div>
+
       {session.notes && <p className={styles.notes}>{session.notes}</p>}
+
       <button
         className={styles.delete}
         onClick={() => deleteSession(session.id)}

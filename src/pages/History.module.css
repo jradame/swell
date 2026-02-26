@@ -1,31 +1,41 @@
+/* src/pages/History.module.css */
+
 .container {
-  max-width: 700px;
+  max-width: 720px;
   margin: 0 auto;
-  padding: 2rem;
+  padding: 2.5rem 1.5rem 3rem;
 }
 
 .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 2rem;
+  margin-bottom: 1.75rem;
 }
 
 .heading {
-  font-size: 1.8rem;
+  font-family: "Syne", system-ui, sans-serif;
+  font-size: 1.9rem;
   font-weight: 700;
-  color: var(--color-primary);
+  color: #FFFFFF;
   margin: 0;
 }
 
 .logBtn {
-  background: var(--color-primary);
-  color: #0a0f1e;
-  padding: 0.6rem 1.2rem;
-  border-radius: var(--radius);
-  font-weight: 700;
-  text-decoration: none;
+  background-color: #C9A96E;
+  color: #0D1B2A;
+  padding: 0.6rem 1.3rem;
+  border-radius: 999px;
+  font-family: "Inter", system-ui, sans-serif;
+  font-weight: 600;
   font-size: 0.9rem;
+  text-decoration: none;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.logBtn:hover {
+  opacity: 0.9;
 }
 
 .list {
@@ -35,12 +45,34 @@
 }
 
 .empty {
-  text-align: center;
-  color: var(--color-muted);
   margin-top: 4rem;
+  text-align: center;
 }
 
-.empty a {
-  color: var(--color-primary);
+.emptyText {
+  font-family: "Inter", system-ui, sans-serif;
+  font-size: 0.95rem;
+  color: #A8B8C8;
+  margin-bottom: 0.5rem;
+}
+
+.emptyLink {
+  font-family: "Inter", system-ui, sans-serif;
+  font-size: 0.95rem;
+  color: #C9A96E;
   text-decoration: none;
+}
+
+.emptyLink:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 640px) {
+  .container {
+    padding: 2rem 1.25rem 2.5rem;
+  }
+
+  .header {
+    gap: 1rem;
+  }
 }

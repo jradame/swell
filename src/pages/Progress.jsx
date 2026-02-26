@@ -1,3 +1,5 @@
+// src/pages/Progress.jsx
+
 import { useSessions } from '../context/SessionContext'
 import {
   BarChart,
@@ -39,29 +41,33 @@ function Progress() {
       ) : (
         <>
           <div className={styles.chartBlock}>
-            <h3>Sessions Per Month</h3>
+            <h3 className={styles.chartTitle}>Sessions Per Month</h3>
             <ResponsiveContainer width="100%" height={250}>
               <BarChart data={chartData}>
                 <XAxis dataKey="month" stroke="#64748b" />
                 <YAxis stroke="#64748b" />
                 <Tooltip
-                  contentStyle={{
-                    background: '#111827',
-                    border: 'none',
-                    color: '#f1f5f9'
-                  }}
-                />
+  cursor={false}
+  contentStyle={{
+    background: '#020617',
+    border: 'none',
+    color: '#f1f5f9'
+  }}
+/>
+
                 <Bar
-                  dataKey="sessions"
-                  fill="#38bdf8"
-                  radius={[6, 6, 0, 0]}
-                />
+  dataKey="sessions"
+  fill="#38bdf8"
+  radius={[6, 6, 0, 0]}
+  activeBar={{ fill: '#38bdf8' }}
+/>
+
               </BarChart>
             </ResponsiveContainer>
           </div>
 
           <div className={styles.chartBlock}>
-            <h3>Total Wave Height Logged</h3>
+            <h3 className={styles.chartTitle}>Total Wave Height Logged</h3>
             <ResponsiveContainer width="100%" height={250}>
               <LineChart data={chartData}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" />
@@ -69,7 +75,7 @@ function Progress() {
                 <YAxis stroke="#64748b" />
                 <Tooltip
                   contentStyle={{
-                    background: '#111827',
+                    background: '#020617',
                     border: 'none',
                     color: '#f1f5f9'
                   }}
