@@ -3,35 +3,50 @@ import styles from './Navbar.module.css'
 
 function Navbar() {
   return (
-    <nav className={styles.navbar}>
-      <div className={styles.logo}>🌊 SWELL</div>
-      <div className={styles.links}>
-        <NavLink
-          to="/"
-          className={({ isActive }) => (isActive ? styles.active : '')}
-        >
-          Home
-        </NavLink>
-        <NavLink
-          to="/log"
-          className={({ isActive }) => (isActive ? styles.active : '')}
-        >
-          Log
-        </NavLink>
-        <NavLink
-          to="/history"
-          className={({ isActive }) => (isActive ? styles.active : '')}
-        >
-          History
-        </NavLink>
-        <NavLink
-          to="/progress"
-          className={({ isActive }) => (isActive ? styles.active : '')}
-        >
-          Progress
-        </NavLink>
+    <header className={styles.navbar}>
+      <div className={styles.inner}>
+        <div className={styles.logo}>
+          <span className={styles.logoIcon}>🌊</span>
+          <span className={styles.logoText}>Swell</span>
+        </div>
+
+        <nav className={styles.navLinks}>
+          <NavLink
+            to="/"
+            end
+            className={({ isActive }) =>
+              isActive ? `${styles.link} ${styles.active}` : styles.link
+            }
+          >
+            Home
+          </NavLink>
+          <NavLink
+            to="/log"
+            className={({ isActive }) =>
+              isActive ? `${styles.link} ${styles.active}` : styles.link
+            }
+          >
+            Log Session
+          </NavLink>
+          <NavLink
+            to="/history"
+            className={({ isActive }) =>
+              isActive ? `${styles.link} ${styles.active}` : styles.link
+            }
+          >
+            History
+          </NavLink>
+          <NavLink
+            to="/progress"
+            className={({ isActive }) =>
+              isActive ? `${styles.link} ${styles.active}` : styles.link
+            }
+          >
+            Progress
+          </NavLink>
+        </nav>
       </div>
-    </nav>
+    </header>
   )
 }
 

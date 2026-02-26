@@ -18,7 +18,13 @@ function Home() {
   return (
     <div className={styles.container}>
       <div className={styles.hero}>
-        <h1 className={styles.title}>🌊 SWELL</h1>
+        <h1 className={styles.title}>
+  <span className={styles.heroLogoIconCircle}>
+    <span className={styles.heroLogoIcon}>🌊</span>
+  </span>
+  <span className={styles.heroLogoText}>SWELL</span>
+</h1>
+
         <p className={styles.subtitle}>
           Log every surf session, track conditions, and watch your surfing
           progress over time.
