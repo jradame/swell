@@ -13,19 +13,20 @@ function SpotConditionsPanel() {
         <label style={{ fontSize: '0.95rem', fontWeight: 500 }}>
           Spot:{' '}
           <select
-            value={selectedId}
-            onChange={e => setSelectedId(e.target.value)}
-            style={{
-              fontSize: '1rem',
-              padding: '0.6rem 1rem',
-              minWidth: '260px',
-              borderRadius: '999px',
-              border: '1px solid rgba(255,255,255,0.15)',
-              backgroundColor: 'rgba(15,23,42,0.9)',
-              color: 'white',
-              outline: 'none'
-            }}
-          >
+  value={selectedId}
+  onChange={e => setSelectedId(e.target.value)}
+  style={{
+    fontSize: '0.95rem',          // slightly smaller text
+    padding: '0.4rem 0.9rem',     // less vertical + horizontal padding
+    minWidth: '150px',            // narrower pill
+    borderRadius: '999px',
+    border: '1px solid rgba(255,255,255,0.15)',
+    backgroundColor: 'rgba(15,23,42,0.9)',
+    color: 'white',
+    outline: 'none'
+  }}
+>
+
             {SPOTS.map(s => (
               <option
                 key={s.id}
