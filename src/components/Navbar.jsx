@@ -1,7 +1,15 @@
+// src/components/Navbar.jsx
+
+import { useState } from 'react'
 import { NavLink } from 'react-router-dom'
 import styles from './Navbar.module.css'
 
 function Navbar() {
+  const [open, setOpen] = useState(false)
+
+  const handleToggle = () => setOpen(prev => !prev)
+  const handleClose = () => setOpen(false)
+
   return (
     <header className={styles.navbar}>
       <div className={styles.inner}>
@@ -10,10 +18,21 @@ function Navbar() {
           <span className={styles.logoText}>Swell</span>
         </div>
 
-        <nav className={styles.navLinks}>
+        <button
+          className={styles.menuButton}
+          onClick={handleToggle}
+          aria-label="Toggle navigation"
+        >
+          <span className={open ? styles.barOpen : styles.bar} />
+          <span className={open ? styles.barOpen : styles.bar} />
+          <span className={open ? styles.barOpen : styles.bar} />
+        </button>
+
+        <nav className={`${styles.navLinks} ${open ? styles.navOpen : ''}`}>
           <NavLink
             to="/"
             end
+            onClick={handleClose}
             className={({ isActive }) =>
               isActive ? `${styles.link} ${styles.active}` : styles.link
             }
@@ -22,6 +41,7 @@ function Navbar() {
           </NavLink>
           <NavLink
             to="/log"
+            onClick={handleClose}
             className={({ isActive }) =>
               isActive ? `${styles.link} ${styles.active}` : styles.link
             }
@@ -30,6 +50,7 @@ function Navbar() {
           </NavLink>
           <NavLink
             to="/history"
+            onClick={handleClose}
             className={({ isActive }) =>
               isActive ? `${styles.link} ${styles.active}` : styles.link
             }
@@ -38,6 +59,7 @@ function Navbar() {
           </NavLink>
           <NavLink
             to="/progress"
+            onClick={handleClose}
             className={({ isActive }) =>
               isActive ? `${styles.link} ${styles.active}` : styles.link
             }

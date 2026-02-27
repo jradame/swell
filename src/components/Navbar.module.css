@@ -1,3 +1,5 @@
+/* src/components/Navbar.module.css */
+
 .navbar {
   position: sticky;
   top: 0;
@@ -68,4 +70,79 @@
 
 .active {
   color: #FFFFFF;
+}
+
+/* hamburger button */
+
+.menuButton {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 4px;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+.bar,
+.barOpen {
+  height: 2px;
+  width: 100%;
+  background-color: #E2E8F0;
+  border-radius: 999px;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+/* basic “X” feel when open */
+
+.barOpen:nth-child(1) {
+  transform: translateY(6px) rotate(45deg);
+}
+
+.barOpen:nth-child(2) {
+  opacity: 0;
+}
+
+.barOpen:nth-child(3) {
+  transform: translateY(-6px) rotate(-45deg);
+}
+
+/* responsive behavior */
+
+@media (max-width: 768px) {
+  .inner {
+    padding: 10px 16px;
+  }
+
+  .navLinks {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    left: 0;
+    background-color: #0D1B2A;
+    flex-direction: column;
+    gap: 0;
+    padding: 0.5rem 1.25rem 1rem;
+    border-top: 1px solid rgba(15, 23, 42, 0.7);
+    display: none;
+  }
+
+  .navOpen {
+    display: flex;
+  }
+
+  .link {
+    padding: 0.6rem 0;
+  }
+
+  .link::after {
+    display: none;
+  }
+
+  .menuButton {
+    display: flex;
+  }
 }
