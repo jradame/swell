@@ -96,8 +96,6 @@
   transition: transform 0.2s ease, opacity 0.2s ease;
 }
 
-/* basic “X” feel when open */
-
 .barOpen:nth-child(1) {
   transform: translateY(6px) rotate(45deg);
 }
@@ -110,7 +108,7 @@
   transform: translateY(-6px) rotate(-45deg);
 }
 
-/* responsive behavior */
+/* mobile overlay menu */
 
 @media (max-width: 768px) {
   .inner {
@@ -118,24 +116,27 @@
   }
 
   .navLinks {
-    position: absolute;
-    top: 100%;
-    right: 0;
-    left: 0;
-    background-color: #0D1B2A;
-    flex-direction: column;
-    gap: 0;
-    padding: 0.5rem 1.25rem 1rem;
-    border-top: 1px solid rgba(15, 23, 42, 0.7);
     display: none;
   }
 
   .navOpen {
     display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: rgba(5, 12, 24, 0.96);
+    gap: 1.5rem;
+    z-index: 40;
   }
 
   .link {
-    padding: 0.6rem 0;
+    font-size: 1rem;
+    padding: 0.4rem 0;
   }
 
   .link::after {
@@ -144,5 +145,6 @@
 
   .menuButton {
     display: flex;
+    z-index: 60;
   }
 }
