@@ -1,69 +1,64 @@
-# SWELL
-# Swell – Surf Session Tracker
+# Swell V2
 
-Swell is a simple surf session tracker that lets you log spots, conditions, and notes, then see your sessions over time. It’s designed as a focused, dark-mode web app that could evolve into a native experience. [web:324][web:329]
+Surf session tracker — rebuilt from the ground up.
 
-## Features
+## Stack
 
-- Log sessions with spot, date, wave height, duration, board, and notes. [web:329]
-- View a history of past sessions as clean, dark navy cards. [web:329]
-- See progress over time with:
-  - Sessions per month bar chart
-  - Total wave height logged line chart [web:296]
-- Consistent dark UI, card styling, and minimal footer across pages. [web:329][web:332]
+- React 18 + Vite
+- React Router v6
+- localStorage for session persistence (no backend yet)
+- Barlow Condensed + DM Sans + DM Mono via Google Fonts
 
-## Tech Stack
+## Setup
 
-- React (Vite) [web:324]
-- React Router for client-side routing [web:324]
-- Context API for session state
-- Recharts for data visualization [web:296][web:300]
-- CSS Modules for component-scoped styling
-
-## Project Goals
-
-- Practice designing and building a small, opinionated product from scratch, from HiFi wireframes to live UI. [web:324][web:326]
-- Demonstrate end-to-end thinking suitable for a junior frontend / UI-focused portfolio. [web:324][web:327]
-- Create a base that could later plug into live surf data and potentially ship as a native app. [web:329][web:335]
-
-## App Structure
-
-- `Home` – Intro hero, quick stats, and spot conditions widget (design intent). [web:332]
-- `Log Session` – Form to capture spot, date, wave height, duration, board, and notes.
-- `History` – Session list rendered as cards with key stats and notes.
-- `Progress` – Charts aggregating sessions by month to show trends over time. [web:296]
-- `Navbar` / `Footer` – Shared shell for navigation and a minimal app footer.
-
-Sessions are stored in a shared `SessionContext`, and pages read/write from that context instead of passing props deeply.
-
-## Running Locally
-
-1. Clone the repo.
-2. Install dependencies:
+Drop these files into your existing Swell repo, replacing the old src/ contents.
 
 ```bash
 npm install
-
-Start the dev server:
 npm run dev
+```
 
-Open the local URL printed in your terminal (usually http://localhost:5173). [web:313]
+No new dependencies needed — same stack as V1.
 
-Scripts
-npm run dev – Start the Vite dev server.
+## What changed from V1
 
-npm run build – Create a production build.
+- Bottom nav on mobile, sidebar on desktop (fully responsive)
+- Spot selection is now a dropdown tied to SPOTS data
+- Session rating (1-5 stars) added to the log form
+- Board selection is a dropdown with common options
+- Home is a real dashboard — conditions widget, stat cards, recent sessions
+- History has filter chips (All / This month / Best rated / Biggest waves)
+- Session cards show all fields with color-coded pills
+- Delete confirmation modal instead of instant delete
+- Progress page has streak calc, monthly bar chart, top spots bar chart
+- Empty states throughout — no blank screens
+- Barlow Condensed for display type (replaces system fonts)
+- DM Sans for body, DM Mono for numbers/data
 
-npm run preview – Preview the production build locally. [web:324]
+## File structure
 
-Possible Next Steps
-Persist sessions with localStorage or a simple backend so data survives refreshes. [web:325]
+```
+src/
+  App.jsx                  — routing + responsive nav
+  main.jsx                 — entry point
+  context/
+    SessionContext.jsx     — session state + localStorage
+  data/
+    spots.js               — surf spot list
+  pages/
+    Home.jsx
+    LogSession.jsx
+    History.jsx
+    Progress.jsx
+  styles/
+    global.css
+    variables.css
+index.html
+```
 
-Integrate a surf conditions API to attach real swell data to each session. [web:335]
+## Coming in V2.1
 
-Add authentication and multi-user support.
-
-Explore a native version using React Native or Expo with the same visual system. [web:329]
-
-License
-This project is for personal portfolio and learning purposes. 
+- Live swell data via Open-Meteo Marine API
+- Custom spot entry
+- Session detail view
+- Export to CSV

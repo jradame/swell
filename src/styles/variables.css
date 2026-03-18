@@ -1,10 +1,46 @@
 :root {
-  --color-bg: #0a0f1e;
-  --color-surface: #111827;
-  --color-primary: #38bdf8;
-  --color-accent: #0ea5e9;
-  --color-text: #f1f5f9;
-  --color-muted: #64748b;
-  --radius: 12px;
-  --font-main: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  /* Core palette — warm dark navy from V1 */
+  --bg:          #0D1B2A;
+  --surface:     #1B2D3F;
+  --card:        #1B2D3F;
+  --card-alt:    #243447;
+  --card-hover:  #1f3347;
+  --border:      rgba(201, 169, 110, 0.12);
+  --border-mid:  rgba(201, 169, 110, 0.22);
+  --border-blue: rgba(56, 189, 248, 0.15);
+
+  /* Gold — brand, highlights, CTAs */
+  --gold:        #C9A96E;
+  --gold-light:  #d6b884;
+  --gold-dim:    rgba(201, 169, 110, 0.12);
+
+  /* Blue — data, live conditions, stats */
+  --primary:     #38bdf8;
+  --primary-dim: rgba(56, 189, 248, 0.10);
+
+  /* Semantic */
+  --green:       #34d399;
+  --green-dim:   rgba(52, 211, 153, 0.12);
+  --amber:       #fbbf24;
+  --amber-dim:   rgba(251, 191, 36, 0.12);
+  --red:         #f87171;
+  --red-dim:     rgba(248, 113, 113, 0.12);
+
+  /* Text */
+  --text:           #FFFFFF;
+  --text-secondary: #A8B8C8;
+  --text-muted:     #64748b;
+
+  /* Layout */
+  --radius-sm:   8px;
+  --radius-md:   12px;
+  --radius-lg:   16px;
+  --radius-xl:   20px;
+  --nav-h:       64px;
+  --sidebar-w:   220px;
+
+  /* Typography */
+  --font-display: 'Syne', sans-serif;
+  --font-body:    'DM Sans', sans-serif;
+  --font-mono:    'DM Mono', monospace;
 }
