@@ -87,17 +87,17 @@ export default function Home() {
   }
 
   return (
-    <div style={{ padding: '32px 40px 40px', maxWidth: '960px' }}>
+    <div style={{ padding: '24px 20px 40px', maxWidth: '960px' }}>
 
       {/* Header */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '32px' }}>
-        <div>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '24px' }}>
+        <div style={{ minWidth: 0, flex: 1 }}>
           <div style={{ fontSize: '13px', color: 'var(--text-muted)', marginBottom: '4px' }}>
             {greeting}
           </div>
           <div style={{
             fontFamily: 'var(--font-display)',
-            fontSize: '48px',
+            fontSize: 'clamp(22px, 6vw, 48px)',
             fontWeight: '800',
             letterSpacing: '0.02em',
             color: 'var(--gold)',
@@ -109,11 +109,12 @@ export default function Home() {
         </div>
         <div style={{
           display: 'flex', flexDirection: 'column', alignItems: 'flex-end', justifyContent: 'center',
-          gap: '3px',
+          gap: '3px', flexShrink: 0, paddingLeft: '12px',
         }}>
           <div style={{
             fontFamily: 'var(--font-display)', fontSize: '13px', fontWeight: '700',
             color: 'var(--text-secondary)', textTransform: 'uppercase', letterSpacing: '0.08em',
+            whiteSpace: 'nowrap',
           }}>
             {dateStr}
           </div>
@@ -179,20 +180,20 @@ export default function Home() {
             { val: conditions.wind,       unit: 'kt', label: 'Wind'        },
           ].map((c, i) => (
             <div key={i} style={{
-              padding: '20px 24px', textAlign: 'center',
+              padding: '16px 8px', textAlign: 'center',
               borderRight: i < 2 ? '0.5px solid var(--border)' : 'none',
             }}>
               <div style={{
                 fontFamily: 'var(--font-display)',
-                fontSize: '36px', fontWeight: '800', color: 'var(--text)',
-                lineHeight: 1,
+                fontSize: 'clamp(20px, 5vw, 36px)', fontWeight: '800', color: 'var(--text)',
+                lineHeight: 1, whiteSpace: 'nowrap',
               }}>
                 {c.val}
-                <span style={{ fontSize: '14px', color: 'var(--primary)', marginLeft: '3px', fontFamily: 'var(--font-body)' }}>
+                <span style={{ fontSize: 'clamp(11px, 2.5vw, 14px)', color: 'var(--primary)', marginLeft: '2px', fontFamily: 'var(--font-body)' }}>
                   {c.unit}
                 </span>
               </div>
-              <div style={{ fontSize: '11px', color: 'var(--text-muted)', marginTop: '6px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+              <div style={{ fontSize: '10px', color: 'var(--text-muted)', marginTop: '6px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
                 {c.label}
               </div>
             </div>
@@ -275,22 +276,26 @@ export default function Home() {
           {recentSessions.map(s => (
             <div key={s.id} style={{
               background: 'var(--card)', borderRadius: 'var(--radius-lg)',
-              border: '0.5px solid var(--border)', padding: '18px 24px',
+              border: '0.5px solid var(--border)', padding: '16px 18px',
               display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+              gap: '12px',
             }}>
-              <div>
-                <div style={{ fontSize: '16px', fontWeight: '500', color: 'var(--text)', marginBottom: '5px' }}>
+              <div style={{ minWidth: 0, flex: 1 }}>
+                <div style={{
+                  fontSize: '15px', fontWeight: '500', color: 'var(--text)', marginBottom: '4px',
+                  whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis',
+                }}>
                   {s.spot}
                 </div>
-                <div style={{ fontSize: '13px', color: 'var(--text-muted)' }}>
+                <div style={{ fontSize: '12px', color: 'var(--text-muted)' }}>
                   {formatDate(s.date)} · {s.duration} min
                 </div>
               </div>
-              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '8px' }}>
-                <div style={{ fontSize: '15px', color: 'var(--primary)', fontFamily: 'var(--font-mono)' }}>
+              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '6px', flexShrink: 0 }}>
+                <div style={{ fontSize: '14px', color: 'var(--primary)', fontFamily: 'var(--font-mono)', whiteSpace: 'nowrap' }}>
                   {s.waveHeight} ft
                 </div>
-                <StarRating rating={parseInt(s.rating) || 0} size={12} />
+                <StarRating rating={parseInt(s.rating) || 0} size={11} />
               </div>
             </div>
           ))}
