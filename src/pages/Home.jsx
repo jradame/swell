@@ -1,20 +1,46 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useSessions } from '../context/SessionContext'
 import { Link } from 'react-router-dom'
 import { SPOTS } from '../data/spots'
 
-// Mock conditions per spot — replace with live API data in V2.1
-const SPOT_CONDITIONS = {
-  'pipeline':         { waveHeight: '6–8',  period: 14, wind: 5,  quality: 'Clean' },
-  'rincon':           { waveHeight: '3–5',  period: 11, wind: 10, quality: 'Fair'  },
-  'trestles':         { waveHeight: '4–6',  period: 12, wind: 8,  quality: 'Clean' },
-  'mavericks':        { waveHeight: '10–15',period: 18, wind: 15, quality: 'Fair'  },
-  'teahupoo':         { waveHeight: '8–10', period: 16, wind: 6,  quality: 'Clean' },
-  'jeffreys-bay':     { waveHeight: '5–7',  period: 13, wind: 12, quality: 'Fair'  },
-  'nazare':           { waveHeight: '12–18',period: 20, wind: 20, quality: 'Blown' },
-  'south-padre':      { waveHeight: '1–2',  period: 7,  wind: 18, quality: 'Fair'  },
-  'barra-de-la-cruz': { waveHeight: '4–5',  period: 11, wind: 7,  quality: 'Clean' },
-  'puerto-escondido': { waveHeight: '6–8',  period: 13, wind: 9,  quality: 'Clean' },
+const mToFt = (m) => Math.round(m * 3.281)
+
+const getQuality = (waveHeightFt, windKt) => {
+  if (waveHeightFt < 1.5) return 'Flat'
+  if (windKt > 25) return 'Blown'
+  if (windKt > 15 || waveHeightFt > 12) return 'Fair'
+  return 'Clean'
+}
+
+const msToKt = (ms) => Math.round(ms * 1.944)
+
+async function fetchConditions(lat, lng) {
+  // Marine API for wave data
+  const marineUrl = `https://marine-api.open-meteo.com/v1/marine?latitude=${lat}&longitude=${lng}&current=wave_height,wave_period,wave_direction&forecast_days=1`
+  // Weather API for wind data (more reliable than marine hourly wind)
+  const weatherUrl = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lng}&current=wind_speed_10m&wind_speed_unit=ms`
+
+  const [marineRes, weatherRes] = await Promise.all([
+    fetch(marineUrl),
+    fetch(weatherUrl),
+  ])
+
+  if (!marineRes.ok || !weatherRes.ok) throw new Error('Failed to fetch conditions')
+
+  const [marineData, weatherData] = await Promise.all([
+    marineRes.json(),
+    weatherRes.json(),
+  ])
+
+  const c = marineData.current
+  const waveHeightFt = mToFt(c.wave_height)
+  const period = Math.round(c.wave_period)
+
+  const windMs = weatherData.current.wind_speed_10m
+  const windKt = msToKt(windMs)
+  const quality = getQuality(waveHeightFt, windKt)
+
+  return { waveHeight: waveHeightFt, period, wind: windKt, quality }
 }
 
 function StarRating({ rating = 0, size = 10 }) {
@@ -54,9 +80,20 @@ function QualityBadge({ label }) {
 export default function Home() {
   const { sessions } = useSessions()
   const [selectedSpotId, setSelectedSpotId] = useState('trestles')
+  const [conditions, setConditions] = useState(null)
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(false)
 
   const selectedSpot = SPOTS.find(s => s.id === selectedSpotId) || SPOTS[0]
-  const conditions = SPOT_CONDITIONS[selectedSpotId] || SPOT_CONDITIONS['trestles']
+
+  useEffect(() => {
+    setLoading(true)
+    setError(false)
+    setConditions(null)
+    fetchConditions(selectedSpot.lat, selectedSpot.lng)
+      .then(data => { setConditions(data); setLoading(false) })
+      .catch(() => { setError(true); setLoading(false) })
+  }, [selectedSpotId])
 
   const now = new Date()
   const greeting = (() => {
@@ -167,7 +204,7 @@ export default function Home() {
               </svg>
             </div>
           </div>
-          <QualityBadge label={conditions.quality} />
+          <QualityBadge label={loading ? '...' : error ? 'N/A' : conditions?.quality} />
         </div>
 
         <div style={{
@@ -175,9 +212,9 @@ export default function Home() {
           borderTop: '0.5px solid var(--border)',
         }}>
           {[
-            { val: conditions.waveHeight, unit: 'ft', label: 'Wave height' },
-            { val: conditions.period,     unit: 's',  label: 'Period'      },
-            { val: conditions.wind,       unit: 'kt', label: 'Wind'        },
+            { val: loading ? '—' : error ? '—' : `${conditions?.waveHeight}`, unit: 'ft', label: 'Wave height' },
+            { val: loading ? '—' : error ? '—' : `${conditions?.period}`,     unit: 's',  label: 'Period'      },
+            { val: loading ? '—' : error ? '—' : `${conditions?.wind}`,       unit: 'kt', label: 'Wind'        },
           ].map((c, i) => (
             <div key={i} style={{
               padding: '16px 8px', textAlign: 'center',
@@ -185,19 +222,33 @@ export default function Home() {
             }}>
               <div style={{
                 fontFamily: 'var(--font-display)',
-                fontSize: 'clamp(20px, 5vw, 36px)', fontWeight: '800', color: 'var(--text)',
+                fontSize: 'clamp(20px, 5vw, 36px)', fontWeight: '800',
+                color: loading ? 'var(--text-muted)' : 'var(--text)',
                 lineHeight: 1, whiteSpace: 'nowrap',
+                transition: 'color 0.2s',
               }}>
                 {c.val}
-                <span style={{ fontSize: 'clamp(11px, 2.5vw, 14px)', color: 'var(--primary)', marginLeft: '2px', fontFamily: 'var(--font-body)' }}>
-                  {c.unit}
-                </span>
+                {!loading && !error && (
+                  <span style={{ fontSize: 'clamp(11px, 2.5vw, 14px)', color: 'var(--primary)', marginLeft: '2px', fontFamily: 'var(--font-body)' }}>
+                    {c.unit}
+                  </span>
+                )}
               </div>
               <div style={{ fontSize: '10px', color: 'var(--text-muted)', marginTop: '6px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
                 {c.label}
               </div>
             </div>
           ))}
+        </div>
+
+        {error && (
+          <div style={{ padding: '10px 16px', fontSize: '11px', color: 'var(--red)', textAlign: 'center', borderTop: '0.5px solid var(--border)' }}>
+            Could not load conditions — check your connection
+          </div>
+        )}
+
+        <div style={{ padding: '8px 16px', fontSize: '10px', color: 'var(--text-muted)', borderTop: '0.5px solid var(--border)', textAlign: 'right' }}>
+          Offshore swell data · Open-Meteo Marine
         </div>
 
         <style>{`
