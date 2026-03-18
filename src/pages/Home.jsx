@@ -58,10 +58,19 @@ export default function Home() {
   const selectedSpot = SPOTS.find(s => s.id === selectedSpotId) || SPOTS[0]
   const conditions = SPOT_CONDITIONS[selectedSpotId] || SPOT_CONDITIONS['trestles']
 
+  const now = new Date()
+  const greeting = (() => {
+    const h = now.getHours()
+    if (h < 12) return 'Good morning'
+    if (h < 17) return 'Good afternoon'
+    return 'Good evening'
+  })()
+  const dayName = now.toLocaleDateString('en-US', { weekday: 'long' })
+  const dateStr = now.toLocaleDateString('en-US', { month: 'long', day: 'numeric' })
+
   const totalSessions = sessions.length
   const thisMonth = sessions.filter(s => {
     const d = new Date(s.date)
-    const now = new Date()
     return d.getMonth() === now.getMonth() && d.getFullYear() === now.getFullYear()
   }).length
 
@@ -84,7 +93,7 @@ export default function Home() {
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '32px' }}>
         <div>
           <div style={{ fontSize: '13px', color: 'var(--text-muted)', marginBottom: '4px' }}>
-            Good morning
+            {greeting}
           </div>
           <div style={{
             fontFamily: 'var(--font-display)',
@@ -95,18 +104,19 @@ export default function Home() {
             textTransform: 'uppercase',
             lineHeight: 1,
           }}>
-            Justin
+            {dayName}
           </div>
         </div>
         <div style={{
-          width: '42px', height: '42px', borderRadius: '50%',
-          background: 'var(--gold-dim)', border: '1.5px solid var(--border-mid)',
-          display: 'flex', alignItems: 'center', justifyContent: 'center',
-          fontFamily: 'var(--font-display)',
-          fontSize: '15px', fontWeight: '700', color: 'var(--gold)',
-          letterSpacing: '0.05em',
+          display: 'flex', flexDirection: 'column', alignItems: 'flex-end', justifyContent: 'center',
+          gap: '3px',
         }}>
-          JA
+          <div style={{
+            fontFamily: 'var(--font-display)', fontSize: '13px', fontWeight: '700',
+            color: 'var(--text-secondary)', textTransform: 'uppercase', letterSpacing: '0.08em',
+          }}>
+            {dateStr}
+          </div>
         </div>
       </div>
 
