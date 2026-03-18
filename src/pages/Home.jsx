@@ -40,7 +40,7 @@ async function fetchConditions(lat, lng) {
   const windKt = msToKt(windMs)
   const quality = getQuality(waveHeightFt, windKt)
 
-  return { waveHeight: waveHeightFt, period, wind: windKt, quality }
+  return { waveHeight: waveHeightFt, period, wind: windKt, quality, fetchedAt: new Date() }
 }
 
 function StarRating({ rating = 0, size = 10 }) {
@@ -247,8 +247,11 @@ export default function Home() {
           </div>
         )}
 
-        <div style={{ padding: '8px 16px', fontSize: '10px', color: 'var(--text-muted)', borderTop: '0.5px solid var(--border)', textAlign: 'right' }}>
-          Offshore swell data · Open-Meteo Marine
+        <div style={{ padding: '8px 16px', fontSize: '10px', color: 'var(--text-muted)', borderTop: '0.5px solid var(--border)', display: 'flex', justifyContent: 'space-between' }}>
+          <span>Offshore swell · Open-Meteo Marine</span>
+          {conditions?.fetchedAt && (
+            <span>Updated {conditions.fetchedAt.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })}</span>
+          )}
         </div>
 
         <style>{`
